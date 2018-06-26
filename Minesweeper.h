@@ -58,7 +58,6 @@ namespace Mines {
 
     private:
         void revealed(Cell *cell) {
-            cout << cell->get_n_adj_mines() << endl;
             if(cell->get_n_adj_mines() > 0){
                 cell->setValue(cell->get_n_adj_mines()+ static_cast<int>('0'));
             }
@@ -70,8 +69,11 @@ namespace Mines {
             for(auto ac : cell->adjacent_cells){
                 auto *ec = mine_board.get_cell<CellBase>(*ac);
                 if(ec->get_n_adj_mines() == 0 && ec->getValue() == 'E') {
-                    ec->setValue('B');
+                    ec->setValue(static_cast<int>(ec->get_n_adj_mines()+48));
                     revealed_recursively(ec);
+                }
+                else if (ec->getValue() == 'E'){
+                    ec->setValue(static_cast<int>(ec->get_n_adj_mines()+48));
                 }
             }
         }
